@@ -1,4 +1,4 @@
-var citySearched = [];
+var citySearched;
 
 //Gets the user's input from the form and saves it to local storage
 function getUserInput() {
@@ -27,7 +27,24 @@ function addSearch(cityName) {
 //Adds city to an array in local storage
 function addToLocalStorage(cityName) {
     var storedCitiesString = localStorage.getItem("citySearched");
-    storedCitiesArray = JSON.parse(storedCitiesString) || [];
+    var storedCitiesArray = JSON.parse(storedCitiesString) || [];
     storedCitiesArray.push(cityName);
     localStorage.setItem("citySearched", JSON.stringify(storedCitiesArray));
 }
+
+//Checks if anything is in local storage and reloads them onto the page
+function reloadLocalStorage() {
+    if (citySearched === null) {
+        return;
+    }
+    var storedCitiesString = localStorage.getItem("citySearched");
+    var storedCitiesArray = JSON.parse(storedCitiesString) || [];
+    
+    for (var i = 0; i < storedCitiesArray.length; i++) {
+        var cityEl = document.createElement("li");
+        cityEl.textContent = storedCitiesArray[i];
+        document.getElementById("cityList").appendChild(cityEl);
+    }
+}
+
+reloadLocalStorage();
