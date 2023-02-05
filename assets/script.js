@@ -1,17 +1,25 @@
 var citySearched;
 
+
 //Gets the user's input from the form and saves it to local storage
 function getUserInput() {
     event.preventDefault();
     var cityInput = document.getElementById("city").value;
     addSearch(cityInput);
+    getWeather(cityInput);
+
 }
 
-//Weather API call, testing this out
-function getWeather() {
-    fetch("api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=61653e3c08785e76f3c18d12e341aa0c")
+//Weather API call
+function getWeather(city) {
+    //Lets us use the city instead of coordinates and sets the units to imperial
+    var requestURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=61653e3c08785e76f3c18d12e341aa0c&units=imperial'
+    fetch(requestURL)
         .then(function (response) {
             return response.json();
+        })
+        .then(data => {
+            displayWeather(data);
         })
 }
 
@@ -45,6 +53,20 @@ function reloadLocalStorage() {
         cityEl.textContent = storedCitiesArray[i];
         document.getElementById("cityList").appendChild(cityEl);
     }
+}
+
+function displayWeather(data) {
+    var cityEl = document.getElementById("weatherWindow");
+    var cityName = data.city.name;
+    cityEl.append(cityName);
+
+    var tempEl = document.getElementById("temp");
+    var temp = data.list[0].main.temp;
+    tempEl.append("Temp: " + temp + " °F");
+
+    var humidityEl = document.getElementById("humidity");
+    var humidity = data.list[0].main.humidity;
+    humidityEl.append("Humidity: " + humidity + " %");
 }
 
 reloadLocalStorage();
