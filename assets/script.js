@@ -18,7 +18,7 @@ function getWeather(city) {
         .then(function (response) {
             return response.json();
         })
-        .then(data => {
+        .then(function(data) {
             displayWeather(data);
         })
 }
@@ -63,6 +63,12 @@ function displayWeather(data) {
     var tempEl = document.getElementById("temp");
     var temp = data.list[0].main.temp;
     tempEl.append("Temp: " + temp + " °F");
+
+    var windEl = document.getElementById("wind");
+    var wind = data.list[0].wind.speed;
+    windEl.append("Wind: " + wind + " MPH");
+
+    console.log(wind);
 
     var humidityEl = document.getElementById("humidity");
     var humidity = data.list[0].main.humidity;
