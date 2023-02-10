@@ -56,9 +56,15 @@ function reloadLocalStorage() {
 }
 
 function displayWeather(data) {
+
+    //Current Day
     var cityEl = document.getElementById("weatherWindow");
     var cityName = data.city.name;
     cityEl.append(cityName);
+
+    var currentDate = new Date(data.list[0].dt * 1000);
+    var dateEl = document.getElementById("date");
+    dateEl.append("Date: " + currentDate);
 
     var tempEl = document.getElementById("temp");
     var temp = data.list[0].main.temp;
@@ -68,11 +74,33 @@ function displayWeather(data) {
     var wind = data.list[0].wind.speed;
     windEl.append("Wind: " + wind + " MPH");
 
-    console.log(wind);
 
     var humidityEl = document.getElementById("humidity");
     var humidity = data.list[0].main.humidity;
     humidityEl.append("Humidity: " + humidity + " %");
+
+    //Next Day
+    var cityEl = document.getElementById("weatherWindow1");
+    var cityName = data.city.name;
+    cityEl.append(cityName);
+
+    var nextDate = new Date(data.list[2].dt * 1000);
+    var dateEl = document.getElementById("date1");
+    dateEl.append("Date: " + nextDate);
+
+    var tempEl = document.getElementById("temp1");
+    var temp = data.list[1].main.temp;
+    tempEl.append("Temp: " + temp + " °F");
+
+    var windEl = document.getElementById("wind1");
+    var wind = data.list[1].wind.speed;
+    windEl.append("Wind: " + wind + " MPH");
+
+
+    var humidityEl = document.getElementById("humidity1");
+    var humidity = data.list[1].main.humidity;
+    humidityEl.append("Humidity: " + humidity + " %");
+
 }
 
 reloadLocalStorage();
